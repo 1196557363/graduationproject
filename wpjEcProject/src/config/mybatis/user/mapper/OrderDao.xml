@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.wpj.user.dao.OrderDao">
+	<resultMap type="com.wpj.user.entity.Order" id="orderMap">
+		<id column="id" property="id"/>
+		<result column="orderId" property="orderId"/>
+		<result column="goodsName" property="goodsName"/>
+		<result column="consignee" property="consignee"/>
+		<result column="price" property="price"/>
+		<result column="status" property="status"/>
+		<result column="photo" property="photo"/>
+	</resultMap>
+	
+	<insert id="addOrder" parameterType="com.wpj.user.entity.Order">
+		INSERT INTO `order` (orderId, goodsName, consignee, price, num, totalMoney, status, photo) VALUES 
+			(#{entity.orderId}, #{entity.goodsName}, #{entity.consignee}, #{entity.price}, #{entity.num}, #{entity.totalMoney}, #{entity.status}, #{entity.photo})
+	</insert>
+	
+	<select id="payOrder" resultMap="orderMap">
+		SELECT * FROM `order` where `status` = 1 and consignee = #{nick}
+	</select>
+	
+	<select id="noPayOrder" resultMap="orderMap">
+		SELECT * FROM `order` where `status` = 2 and consignee = #{nick}
+	</select>
+
+	<select id="completeOrder" resultMap="orderMap">
+		SELECT * FROM `order` where `status` = 3 and consignee = #{nick}
+	</select>
+	
+	<select id="getByOrderCount" resultType="java.lang.Integer">
+		select count(*) from `order` WHERE (`consignee`=#{nick}) 
+	</select>
+	
+	<!-- 分页获取用户列表 -->
+	<select id="findList" parameterType="Map" resultType="com.wpj.user.entity.Order">
+		SELECT * FROM `order` WHERE 1=1 
+		<if test="consignee != null">
+			and consignee like '%${consignee}%' 
+		</if>
+		<if test="status != null">
+			and status = #{status}  
+		</if>
+		<if test="offset != null and pageSize != null">
+			limit #{offset},#{pageSize}
+		</if>
+	</select>
+	<!-- 获取符合结果的总记录数 -->
+	<select id="getTotal" parameterType="Map" resultType="Integer">
+		SELECT count(*) FROM `order` WHERE 1=1 
+		<if test="consignee != null">
+			and consignee like '%${consignee}%' 
+		</if>
+		<if test="status != null">
+			and status = #{status}  
+		</if>
+	</select>
+	
+	<select id="updateOrder">
+		UPDATE `order` SET `status`= #{status} WHERE (`orderId`=#{orderId})
+	</select>
+	
+</mapper>

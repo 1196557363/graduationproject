@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.wpj.user.dao.GoodsDao">
+	
+	<resultMap type="com.wpj.user.entity.Goods" id="goodsMap">
+		<id column="id" property="id"/>
+		<result column="name" property="name"/>
+		<result column="price" property="price"/>
+		<result column="category" property="category"/>
+		<result column="desc" property="desc"/>
+		<result column="photo" property="photo"/>
+	</resultMap>
+	
+	<select id="selectAllGoods" resultMap="goodsMap">
+		select * from goods
+	</select>
+	
+	<select id="selectByName" resultMap="goodsMap">
+		select * from goods where category = (select id from catalog where name = #{catalogName})
+	</select>
+	
+	<select id="selectGoodsPrice" resultType="java.lang.Double">
+		select price from goods where name = #{name}
+	</select>
+	
+	
+</mapper>

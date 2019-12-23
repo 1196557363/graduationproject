@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.wpj.user.dao.CatalogDao">
+	
+	<resultMap type="com.wpj.user.entity.Catalog" id="catalogMap">
+		<id column="id" property="id" />
+		<result column="name" property="name"/>
+		<result column="pid" property="pid"/>
+	</resultMap>
+	
+	<select id="ScannerFirstCatalog" resultMap="catalogMap">
+		select * from catalog where pid = 0
+	</select>
+	
+	<select id="ScannerSecondCatalog" resultMap="catalogMap">
+		select * from catalog where pid != 0
+	</select>
+	
+</mapper>

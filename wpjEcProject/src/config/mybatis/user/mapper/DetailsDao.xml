@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.wpj.user.dao.DetailsDao">
+	
+	<resultMap type="com.wpj.user.entity.Details" id="GoodsDetailsMap">
+		<id column="id" property="id" />
+		<result column="serialNumber" property="serialNumber" />
+		<result column="name" property="name" />
+		<result column="address" property="address" />
+		<result column="other" property="other" />
+		<result column="photos" property="photos" />
+		<result column="catalogId" property="catalogId" />
+	</resultMap>
+	
+	
+	<select id="selectGoodsDetails" resultType="com.wpj.user.entity.Details">
+		select * from details where name = #{name}
+	</select>
+	
+
+</mapper>
